@@ -42,10 +42,9 @@ type Ussd struct {
 }
 
 // New USSD
-func New(store sessionstores.Store, ctrl, action string) *Ussd {
+func New(ctrl, action string) *Ussd {
 	u := &Ussd{
 		initialRoute:     route{StrTrim(ctrl), StrTrim(action)},
-		store:            store,
 		middlewares:      make([]Middleware, 0),
 		ctrls:            make(map[string]interface{}),
 		initiationRegexp: regexp.MustCompile(`^\*\d+[\*|#]`),
@@ -75,7 +74,8 @@ func (u *Ussd) Ctrl(c interface{}) {
 }
 
 // Process USSD request.
-func (u Ussd) process(request *Request) Response {
+func (u Ussd) process(store sessionstores.Store, request *Request) Response {
+	u.store = store
 	err := u.store.Connect()
 	if err != nil {
 		log.Panicln(err)
@@ -103,22 +103,22 @@ func (u Ussd) process(request *Request) Response {
 }
 
 // Process USSD using adapters
-func (u Ussd) Process(request RequestAdapter, response ResponseAdapter) {
-	res := u.process(request.GetRequest())
+func (u Ussd) Process(store sessionstores.Store, request RequestAdapter, response ResponseAdapter) {
+	res := u.process(store, request.GetRequest())
 	response.SetResponse(res)
 }
 
 // ProcessSmsgh processes USSD from SMSGH
-func (u Ussd) ProcessSmsgh(request *SmsghRequest) SmsghResponse {
+func (u Ussd) ProcessSmsgh(store sessionstores.Store, request *SmsghRequest) SmsghResponse {
 	response := SmsghResponse{}
-	u.Process(request, &response)
+	u.Process(store, request, &response)
 	return response
 }
 
 // ProcessNsano processes USSD from Nsano
-func (u Ussd) ProcessNsano(request *NsanoRequest) NsanoResponse {
+func (u Ussd) ProcessNsano(store sessionstores.Store, request *NsanoRequest) NsanoResponse {
 	response := NsanoResponse{}
-	u.Process(request, &response)
+	u.Process(store, request, &response)
 	return response
 }
 

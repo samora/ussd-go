@@ -2,7 +2,7 @@ package sessionstores
 
 import (
 	"errors"
-	"github.com/samora/ussd-go/Godeps/_workspace/src/github.com/fzzy/radix/redis"
+	"github.com/fzzy/radix/redis"
 	"log"
 )
 

@@ -3,7 +3,7 @@ package validator
 import (
 	"errors"
 	"fmt"
-	"github.com/samora/ussd-go/Godeps/_workspace/src/github.com/asaskevich/govalidator"
+	"github.com/asaskevich/govalidator"
 )
 
 // Map contains all validators

@@ -1,6 +1,6 @@
 package sessionstores
 
-import "github.com/samora/ussd-go/Godeps/_workspace/src/github.com/stretchr/testify/suite"
+import "github.com/stretchr/testify/suite"
 
 // StoreSuite should be used to test each session store implementation
 type StoreSuite struct {

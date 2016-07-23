@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"github.com/samora/ussd-go/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
