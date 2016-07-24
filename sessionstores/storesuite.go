@@ -39,15 +39,13 @@ func (s *StoreSuite) TestStore() {
 	s.Equal(s.value, val)
 
 	// ValueExists
-	exists, err := s.store.ValueExists(s.key)
-	s.Nil(err)
+	exists := s.store.ValueExists(s.key)
 	s.True(exists)
 
 	// DeleteValue
 	err = s.store.DeleteValue(s.key)
 	s.Nil(err)
-	exists, err = s.store.ValueExists(s.key)
-	s.Nil(err)
+	exists = s.store.ValueExists(s.key)
 	s.False(exists)
 
 	// HashSetValue
@@ -60,28 +58,24 @@ func (s *StoreSuite) TestStore() {
 	s.Equal(s.value, val)
 
 	// HashValueExists
-	exists, err = s.store.HashValueExists(s.name, s.key)
-	s.Nil(err)
+	exists = s.store.HashValueExists(s.name, s.key)
 	s.True(exists)
 
 	// HashDeleteValue
 	err = s.store.HashDeleteValue(s.name, s.key)
 	s.Nil(err)
-	exists, err = s.store.HashValueExists(s.name, s.key)
-	s.Nil(err)
+	exists = s.store.HashValueExists(s.name, s.key)
 	s.False(exists)
 
 	// HashExists
 	err = s.store.HashSetValue(s.name, s.key, s.value)
 	s.Nil(err)
-	exists, err = s.store.HashExists(s.name)
-	s.Nil(err)
+	exists = s.store.HashExists(s.name)
 	s.True(exists)
 
 	// HashDelete
 	err = s.store.HashDelete(s.name)
 	s.Nil(err)
-	exists, err = s.store.HashExists(s.name)
-	s.Nil(err)
+	exists = s.store.HashExists(s.name)
 	s.False(exists)
 }

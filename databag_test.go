@@ -50,20 +50,17 @@ func (d *DataBagSuite) TestDataBag() {
 	d.Nil(err)
 	d.Equal(d.value, val)
 
-	exists, err := d.databag.Exists(d.key)
-	d.Nil(err)
+	exists := d.databag.Exists(d.key)
 	d.True(exists)
 
 	err = d.databag.Delete(d.key)
 	d.Nil(err)
-	exists, err = d.databag.Exists(d.key)
-	d.Nil(err)
+	exists = d.databag.Exists(d.key)
 	d.False(exists)
 
 	err = d.databag.Clear()
 	d.Nil(err)
-	exists, err = d.store.HashExists(name)
-	d.Nil(err)
+	exists = d.store.HashExists(name)
 	d.False(exists)
 
 	v := &testStructValue{Name: "Samora", Age: 29}

@@ -38,11 +38,7 @@ func (s session) Get() route {
 }
 
 func (s session) Exists() bool {
-	b, err := s.store.ValueExists(s.routeKey)
-	if err != nil {
-		panicln("session: %v", err)
-	}
-	return b
+	return s.store.ValueExists(s.routeKey)
 }
 
 func (s session) Close() {

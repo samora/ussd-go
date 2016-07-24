@@ -63,8 +63,9 @@ func (s *Redis) GetValue(key string) (string, error) {
 	return str, err
 }
 
-func (s *Redis) ValueExists(key string) (bool, error) {
-	return s.client.Cmd("EXISTS", key).Bool()
+func (s *Redis) ValueExists(key string) bool {
+	ok, _ := s.client.Cmd("EXISTS", key).Bool()
+	return ok
 }
 
 func (s *Redis) DeleteValue(key string) error {
@@ -89,15 +90,16 @@ func (s *Redis) HashGetValue(name, key string) (string, error) {
 	return str, err
 }
 
-func (s *Redis) HashValueExists(name, key string) (bool, error) {
-	return s.client.Cmd("HEXISTS", name, key).Bool()
+func (s *Redis) HashValueExists(name, key string) bool {
+	ok, _ := s.client.Cmd("HEXISTS", name, key).Bool()
+	return ok
 }
 
 func (s *Redis) HashDeleteValue(name, key string) error {
 	return s.client.Cmd("HDEL", name, key).Err
 }
 
-func (s *Redis) HashExists(name string) (bool, error) {
+func (s *Redis) HashExists(name string) bool {
 	return s.ValueExists(name)
 }
 
