@@ -94,12 +94,7 @@ func (m MemcacheGAE) HashDeleteValue(name, key string) error {
 }
 
 func (m MemcacheGAE) HashExists(name string) bool {
-	hash := map[string]string{}
-	_, err := memcacheGAEHashCodec.Get(m.ctx, name, hash)
-	if err != nil {
-		return false
-	}
-	return true
+	return m.ValueExists(name)
 }
 
 func (m MemcacheGAE) HashDelete(name string) error {
