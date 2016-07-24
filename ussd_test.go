@@ -37,38 +37,40 @@ func (u UssdSuite) TestUssd() {
 	u.Equal(1, len(u.ussd.middlewares))
 	u.Equal(2, len(u.ussd.ctrls))
 
-	response := u.ussd.process(u.store, u.request)
+	data := Data{}
+
+	response := u.ussd.process(u.store, data, u.request)
 	u.False(response.Release)
 	u.Contains(response.Message, "Welcome")
 
 	u.request.Message = "1"
-	response = u.ussd.process(u.store, u.request)
+	response = u.ussd.process(u.store, data, u.request)
 	u.Contains(response.Message, "Enter Name")
 
 	u.request.Message = "Samora"
-	response = u.ussd.process(u.store, u.request)
+	response = u.ussd.process(u.store, data, u.request)
 	u.False(response.Release)
 	u.Contains(response.Message, "Select Sex")
 
 	u.request.Message = "1"
-	response = u.ussd.process(u.store, u.request)
+	response = u.ussd.process(u.store, data, u.request)
 	u.False(response.Release)
 	u.Contains(response.Message, "Enter Age")
 
 	u.request.Message = "twenty"
-	response = u.ussd.process(u.store, u.request)
+	response = u.ussd.process(u.store, data, u.request)
 	u.False(response.Release)
 	u.Contains(response.Message, "integer")
 
 	u.request.Message = "29"
-	response = u.ussd.process(u.store, u.request)
+	response = u.ussd.process(u.store, data, u.request)
 	u.True(response.Release)
 	u.Contains(response.Message, "Master Samora")
 
 	u.request.Message = "*123*"
-	u.ussd.process(u.store, u.request)
+	u.ussd.process(u.store, data, u.request)
 	u.request.Message = "0"
-	response = u.ussd.process(u.store, u.request)
+	response = u.ussd.process(u.store, data, u.request)
 	u.Equal("Bye bye.", response.Message)
 }
 

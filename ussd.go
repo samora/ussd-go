@@ -74,7 +74,7 @@ func (u *Ussd) Ctrl(c interface{}) {
 }
 
 // Process USSD request.
-func (u Ussd) process(store sessionstores.Store, request *Request) Response {
+func (u Ussd) process(store sessionstores.Store, data Data, request *Request) Response {
 	u.store = store
 	err := u.store.Connect()
 	if err != nil {
@@ -88,7 +88,7 @@ func (u Ussd) process(store sessionstores.Store, request *Request) Response {
 	// setup context
 	u.context = new(Context)
 	u.context.DataBag = newDataBag(u.store, request)
-	u.context.Data = make(Data)
+	u.context.Data = data
 	u.context.Request = request
 
 	// setup session
@@ -103,22 +103,22 @@ func (u Ussd) process(store sessionstores.Store, request *Request) Response {
 }
 
 // Process USSD using adapters
-func (u Ussd) Process(store sessionstores.Store, request RequestAdapter, response ResponseAdapter) {
-	res := u.process(store, request.GetRequest())
+func (u Ussd) Process(store sessionstores.Store, data Data, request RequestAdapter, response ResponseAdapter) {
+	res := u.process(store, data, request.GetRequest())
 	response.SetResponse(res)
 }
 
 // ProcessSmsgh processes USSD from SMSGH
-func (u Ussd) ProcessSmsgh(store sessionstores.Store, request *SmsghRequest) SmsghResponse {
+func (u Ussd) ProcessSmsgh(store sessionstores.Store, data Data, request *SmsghRequest) SmsghResponse {
 	response := SmsghResponse{}
-	u.Process(store, request, &response)
+	u.Process(store, data, request, &response)
 	return response
 }
 
 // ProcessNsano processes USSD from Nsano
-func (u Ussd) ProcessNsano(store sessionstores.Store, request *NsanoRequest) NsanoResponse {
+func (u Ussd) ProcessNsano(store sessionstores.Store, data Data, request *NsanoRequest) NsanoResponse {
 	response := NsanoResponse{}
-	u.Process(store, request, &response)
+	u.Process(store, data, request, &response)
 	return response
 }
 
